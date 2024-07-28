@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CodeWithShashank</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+
+      function del(id){
+      //  alert("del"+id);
+        axios.post("https://codingshika.com/APP/WS_API/delete_test.php?id="+id)
+            .then(responce=>{
+                console.log(responce.data);
+                if(responce.data.posts.status=="200"){
+                    alert("Delete Success");
+                }else{
+                    alert("Delete Fail");
+                }
+            })
+      }
+        function add(){
+            let nm=document.getElementById("name").value;
+            let e=document.getElementById("email").value;
+            let a=document.getElementById("address").value;
+            //alert(nm+" "+e+" "+a);
+            axios.post("https://codingshika.com/APP/WS_API/insert_test.php?name="+nm+"&email="+e+"&addr="+a)
+            .then(responce=>{
+                console.log(responce.data);
+                if(responce.data.posts.status=="200"){
+                    alert("Insert Success");
+                }else{
+                    alert("Insert Fail");
+                }
+            })
+        }
+    </script>
+    <script>
+        function contact(){
+          // alert("Page Loaded");
+
+           axios.get("https://codingshika.com/APP/WS_API/select_test.php")
+           .then(responce=>{
+           // console.log(responce.data);
+            let l=responce.data.posts.post;
+        //    console.log(l.length);
+            for(let i=0;i<l.length;i++){
+             //   console.log(responce.data.posts.post);
+                var rowData="<tr><td>"+l[i].S_ID+"</td>";
+                    rowData +="<td>"+l[i].Name+"</td>";
+                    rowData +="<td>"+l[i].Address+"</td>";
+                    rowData +="<td>"+l[i].Email+"</td>";   
+                    rowData +="<td><input type='button' value='Delete' class='btn btn-danger' onclick='del("+l[i].S_ID+")'></td>";
+                    rowData +="</tr>";
+	               $('#dt').append(rowData);
+
+            }
+           })
+        }
+    </script>
+
+
+</head>
+
+  <body onload="contact()">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    
+
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Code_With_Shashank</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+              </li>
+             
+              <li class="nav-item">
+                <a class="nav-link" href="about.html">About</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Courses
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Web Development </a></li>
+                  <li><a class="dropdown-item" href="#">C/C++ </a></li>
+                  <li><a class="dropdown-item" href="#">Python </a></li>
+                  <li><a class="dropdown-item" href="#">JAVA </a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Data Analysis</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="contact.html">Contact Us</a>
+              </li>
+              
+
+              <li class="nav-item">
+                <a class="nav-link" href="Query_std.html">Students Who Queried</a>
+              </li>
+
+
+            </ul>
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <div class="mx-2">
+              <button class="btn btn-danger" data-toggle="modal" data-target="#loginModal">Login</button>
+                <button class="btn btn-danger" data-toggle="modal" data-target="#signupModal">SignUp</button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Login to CodeWithShashank</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1">
+              </div>
+              <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+              </div>
+              <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Sign Up Modal -->
+<div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Get an CodeWithShashank Account</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1">
+              </div>
+              <div class="form-group">
+                <label for="cexampleInputPassword1">Confirm Password</label>
+                <input type="password" class="form-control" id="cexampleInputPassword1">
+              </div>
+               
+              <button type="submit" class="btn btn-primary">Creat Account</button>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
+      </div>
+    </div>
+  </div>
+</div>
+
+     
+<div class="row"> 
+  <div class="col-12 d-flex justify-content-center">
+    <table class="table table-dark">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>NAME</th>
+          <th>Address</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody id="dt">
+        <!-- Table data will go here -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+      
+
+
+
+<footer class="container">
+  <p class="float-end"><a href="#">Back to top</a></p>
+  <p>© 2023–2024 Company, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+</footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
